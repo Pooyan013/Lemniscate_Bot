@@ -22,7 +22,7 @@ keyboard_markup.add("برنامه‌ریزی شهری", "برنامه‌سازی
                "عملیات کابردهای فتوگرامتری", "عملیات تحلیل های مکانی", "عملیات مبانی فتوگرامتری")
 
 lesson_btn = ReplyKeyboardMarkup(resize_keyboard=True ,row_width=1)
-lesson_btn.add("📚جزوه", "📄نمونه سوال" , "📽️ویدئو", "🔙")
+lesson_btn.add("جزوه", "نمونه سوال" , "ویدئو", "🔙")
 
 def join_channel_button():
     markup = InlineKeyboardMarkup()
@@ -200,8 +200,6 @@ def main(message):
         bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[468])
     elif message.text == "عملیات مبانی فتوگرامتری":
         bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز نمونه سوالی نداریم😑", reply_markup=keyboard_markup)
-
-
 def urban_planning_handler(message):
     if message.text == "جزوه":
         bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز جزوه ای نداریم😑", reply_markup=keyboard_markup)
