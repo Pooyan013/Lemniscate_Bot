@@ -43,7 +43,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=["broadcast"])
 def broadcast(message):
-    if message.chat.type == "private" and message.from_user.id == ADMIN_USER_ID:
+    if message.chat.type == "private" and message.from_user.id == 101108999:
         broadcast_message = message.text.replace('/broadcast', '').strip()
         if broadcast_message:
             with open(user_ids_file, "r") as file:
