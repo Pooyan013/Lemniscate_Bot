@@ -276,7 +276,7 @@ def dbms_handler(message):
 
 def image_procces_handler(message):
     if message.text == "📕جزوه":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[49,50,51,52,53,54,55,56,57,58,59])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[49,50,51,52,53,54,55,56,57,58,59,582])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
         bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[316,315,433,434,435,436,437])
@@ -351,7 +351,7 @@ def had_handler(message):
         bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[523,524,525,526,527,528,529,530,536,543])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[421,531,532,533,534,535])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[421,531,532,533,534,535,574, 578, 579])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "🎞ویدئو":
         bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز 🎞ویدئویی نداریم😑", reply_markup=keyboard_markup)
@@ -383,7 +383,7 @@ def riazi_handler(message):
 
 def gps_handler(message):
     if message.text == "📕جزوه":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[111,112,113,114,115,116,117,118,119,120,121])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[111,112,113,114,115,116,117,118,119,120,121, 573])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
         bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[355])
@@ -501,7 +501,7 @@ def carto_handler(message):
 
 def karbord_handler(message):
     if message.text == "📕جزوه":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[201,202,203,204,205,206,207,208,209,210,211,212])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[201,202,203,204,205,206,207,208,209,210,211,212,581])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
         bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[425])
@@ -608,10 +608,10 @@ def geodetic_handler(message):
 
 def hydro_handler(message):
     if message.text == "📕جزوه":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[2,3])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[2,3, 583])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
-        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[365])
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[365,576 ,577])
         bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "🎞ویدئو":
         bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز 🎞ویدئویی نداریم😑", reply_markup=keyboard_markup)
@@ -635,7 +635,8 @@ def modiriat_handeler(message):
          bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[542])
          bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "📑نمونه سوال":
-        bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز 📑نمونه سوالی نداریم😑", reply_markup=keyboard_markup)
+        bot.copy_messages(chat_id=message.chat.id,from_chat_id=channel1,message_ids=[552,553, 554, 555, 556, 557, 580])
+        bot.send_message(message.chat.id,"مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013",reply_markup=keyboard_markup)
     elif message.text == "🎞ویدئو":
         bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز 🎞ویدئویی نداریم😑", reply_markup=keyboard_markup)
     elif message.text == "🔙":
