@@ -5,10 +5,7 @@ from keys import *
 import sqlite3
 from datetime import datetime
 
-bot_hash = hash
-
-#___________________Bot Structure____________________
-bot = telebot.TeleBot(bot_hash)
+bot = telebot.TeleBot(hash)
 lesson_name = [
     "برنامه‌ریزی شهری", "برنامه‌سازی پیشرفته", "پایگاه داده", "پردازش تصاویررقومی", "تئوری برآورد",
     "پویشگرهای لیزری", "جبر خطی", "تحلیل اطلاعات مکانی", "روش‌های اجرای ساختمان", "حدنگاری", "زیرسازی و روسازی",
