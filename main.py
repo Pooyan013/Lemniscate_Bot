@@ -7,8 +7,9 @@ from datetime import datetime
 
 bot_hash = hash
 
-bot = telebot.TeleBot(bot_hash)
+#___________________Bot Structure____________________
 
+bot = telebot.TeleBot(bot_hash)
 lesson_name = [
     "برنامه‌ریزی شهری", "برنامه‌سازی پیشرفته", "پایگاه داده", "پردازش تصاویررقومی", "تئوری برآورد",
     "پویشگرهای لیزری", "جبر خطی", "تحلیل اطلاعات مکانی", "روش‌های اجرای ساختمان", "حدنگاری", "زیرسازی و روسازی",
@@ -29,6 +30,7 @@ lesson_btn.add("جزوه📕", "نمونه سوال📑", "ویدئو🎞", "�
 channels = ["@geomatic_nit"]
 user_ids_file = "user_ids.txt"
 
+#_______________________SaveUserId________________________________
 def save_user_id(user_id):
     with open(user_ids_file, "a+") as file:
         file.seek(0)
@@ -57,7 +59,6 @@ def send_welcome(message):
 
     bot.send_message(message.chat.id, f"سلام {username}! 🙂برای استفاده از ربات حتما باید توی کانال‌های زیر عضو بشی:", reply_markup=join_channel_button())
 
-
 @bot.callback_query_handler(func=lambda call: call.data == "check_join")
 def check_join_callback(call):
     user_id = call.from_user.id
@@ -68,7 +69,7 @@ def check_join_callback(call):
     else:
         bot.answer_callback_query(call.id, "🙂برای استفاده از ربات باید توی کانال انجمن عضو بشید:", show_alert=True)
 
-#Saving_UserData
+#_______________________________CreateUserDatabase_________________________________
 conn = sqlite3.connect('Users.db')
 cursor = conn.cursor()
 
