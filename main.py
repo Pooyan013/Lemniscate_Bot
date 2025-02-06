@@ -8,7 +8,6 @@ from datetime import datetime
 bot_hash = hash
 
 #___________________Bot Structure____________________
-
 bot = telebot.TeleBot(bot_hash)
 lesson_name = [
     "برنامه‌ریزی شهری", "برنامه‌سازی پیشرفته", "پایگاه داده", "پردازش تصاویررقومی", "تئوری برآورد",
@@ -70,23 +69,30 @@ def check_join_callback(call):
         bot.answer_callback_query(call.id, "🙂برای استفاده از ربات باید توی کانال انجمن عضو بشید:", show_alert=True)
 
 #_______________________________CreateUserDatabase_________________________________
-conn = sqlite3.connect('Users.db')
-cursor = conn.cursor()
 
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER UNIQUE,
-        username TEXT,
-        usage_count INTEGER DEFAULT 0,
-        last_used TEXT
-    )
-''')
-conn.commit()
+def create_users_table():
+    conn = sqlite3.connect('Users.db', check_same_thread=False)
+    cursor = conn.cursor()
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER UNIQUE,
+            username TEXT,
+            usage_count INTEGER DEFAULT 0,
+            last_used TEXT
+        )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+create_users_table()
 def update_user_data(user_id, username):
-    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
+    conn = sqlite3.connect('Users.db', check_same_thread=False)
+    cursor = conn.cursor()
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,))
     user = cursor.fetchone()
     if user:
@@ -102,38 +108,64 @@ def update_user_data(user_id, username):
         """, (user_id, username, now))
 
     conn.commit()
+    conn.close()
 
+user_lessons = {}  
+channel1 = -1002031480440
 
+#_____________________________Broadcast______________________________
+@bot.message_handler(commands=["broadcast"])
+def broadcast(message):
+    if message.chat.type == "private" and message.from_user.id == 101108999:
+        broadcast_message = message.text.replace('/broadcast', '').strip()
+        if broadcast_message:
+            with open(user_ids_file, "r") as file:
+                user_ids = file.readlines()
+                for user_id in user_ids:
+                    try:
+                        bot.send_message(user_id.strip(), broadcast_message)
+                    except Exception as e:
+                        print(f"Failed to send message to {user_id}: {e}")
+        else:
+            bot.send_message(message.chat.id, "Please provide a message to broadcast.")
+
+#__________________________________Sender_______________________________
 @bot.message_handler()
 def main(message):
-    channel1 = -1002031480440
-    bot.send_chat_action(message.chat.id, action="typing")
     if message.text in lesson_name:
-        lesson = message.text
+        user_lessons[message.chat.id] = message.text  
         bot.send_message(message.chat.id, "به کدومشون احتیاج داری؟", reply_markup=lesson_btn)
 
-        if message.text == "جزوه📕" and lesson in handout:
+    elif message.text == "جزوه📕":
+        lesson = user_lessons.get(message.chat.id)
+        if lesson and lesson in handout:
             bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=handout[lesson])
             bot.send_message(message.chat.id, "مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013", reply_markup=keyboard_markup)
+        else:
+            bot.send_message(message.chat.id, "متاسفانه برای این درس جزوه‌ای موجود نیست😑", reply_markup=keyboard_markup)
 
-        elif message.text == "نمونه سوال📑" and lesson in exams:
+    elif message.text == "نمونه سوال📑":
+        lesson = user_lessons.get(message.chat.id)
+        if lesson and lesson in exams:
             bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=exams[lesson])
             bot.send_message(message.chat.id, "مشکلی وجود داره یا فایلی داری که تو ربات نیست حتما برام بفرستش ✌️\n @Pooyan013", reply_markup=keyboard_markup)
+        else:
+            bot.send_message(message.chat.id, "متاسفانه برای این درس نمونه سوالی موجود نیست😑", reply_markup=keyboard_markup)
 
-        elif message.text == "ویدئو🎞":
-            if lesson == "تحلیل اطلاعات مکانی":
-                bot.send_message(message.chat.id, from_chat_id=channel1, message_ids=[468], reply_markup=keyboard_markup)
-            elif lesson == "سیستم اطلاعات مکانی":
-                bot.copy_messages(message.chat.id, from_chat_id=channel1, message_ids=[438, 439, 440, 441], reply_markup=keyboard_markup)
-            elif lesson == "سنجش از دور":
-                bot.copy_messages(message.chat.id, from_chat_id=channel1, message_ids=[457,458,459,460,461,462,463,464,465,466], reply_markup=keyboard_markup)
-            elif lesson == "کابردهای فتوگرامتری":
-                bot.copy_messages(message.chat.id, from_chat_id=channel1, message_ids=[450,451,452,453,454,455,456], reply_markup=keyboard_markup)
-            else:
-                bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز ویدئویی نداریم😑", reply_markup=keyboard_markup)
-        
-        elif message.text == "🔙":
-            bot.send_message(message.chat.id, "بازگشت", reply_markup=keyboard_markup)
+    elif message.text == "ویدئو🎞":
+        lesson = user_lessons.get(message.chat.id)
+        if lesson == "تحلیل اطلاعات مکانی":
+            bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=[468])
+        elif lesson == "سیستم اطلاعات مکانی":
+            bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=[438, 439, 440, 441])
+        elif lesson == "سنجش از دور":
+            bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=[457, 458, 459, 460, 461, 462, 463, 464, 465, 466])
+        elif lesson == "کاربردهای فتوگرامتری":
+            bot.copy_messages(chat_id=message.chat.id, from_chat_id=channel1, message_ids=[450, 451, 452, 453, 454, 455, 456])
+        else:
+            bot.send_message(message.chat.id, "متاسفانه برای این درس هنوز ویدئویی نداریم😑", reply_markup=keyboard_markup)
 
-conn.close()
+    elif message.text == "🔙":
+        bot.send_message(message.chat.id, "بازگشت به منوی اصلی", reply_markup=keyboard_markup)
+
 bot.infinity_polling()
